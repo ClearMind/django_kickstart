@@ -1,0 +1,93 @@
+{% load i18n %}
+<!DOCTYPE html>
+<!--[if IE 8]>
+ 	<html class="no-js lt-ie9" lang="en">
+<![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    <meta name="description" content="Description here"/>
+    <title>{% if title %}{{ title }} | {% endif %}{{ app_name }} - {{ company }}</title>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/normalize.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/app.css"/>
+    <script src="{{ STATIC_URL }}js/vendor/custom.modernizr.js"></script>
+    {% for style in custom_styles %}
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/{{ style }}">
+    {% endfor %}
+</head>
+<body>
+
+<nav class="top-bar">
+    <ul class="title-area">
+        <!-- Title Area -->
+        <li class="name">
+            <h1><a href="/">{% trans "Home" %}</a></h1>
+        </li>
+        <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+        <li class="toggle-topbar menu-icon"><a href="#"><span>{% trans "Menu" %}</span></a></li>
+    </ul>
+    <section class="top-bar-section">
+        <ul class="left">
+            <li class="divider"></li>
+            {% for mi in menu_items %}
+                <li><a href="{{ mi.link }}">{{ mi.name }}</a></li>
+                <li class="divider"></li>
+            {% endfor %}
+        </ul>
+        <ul class="right">
+            <li class="divider"></li>
+            {% if user.is_authenticated %}
+                <li><a href="/logout/">{% trans "Log Out" %}</a></li>
+            {% else %}
+                <li><a href="/login/">{% trans "Log In" %}</a></li>
+            {% endif %}
+            <li class="divider"></li>
+        </ul>
+    </section>
+</nav>
+
+<div class="row">
+    {% block content %}
+        {% if news %}
+            <div class="row">
+                <div class="small-12 large-12 columns">
+                    <h2>{% trans "Latest news" %}</h2>
+                </div>
+
+                {% for ni in news %}
+                    <div class="small-12 large-2 columns">
+                        <h6 class="subheader">{{ ni.date }}</h6>
+                    </div>
+                    <div class="small-12 large-10 columns">
+                        <h5>{{ ni.title }}</h5>
+
+                        <p>{{ ni.text }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endblock %}
+</div>
+
+<script src='{{ STATIC_URL }}js/vendor/jquery.js'></script>
+<script src="{{ STATIC_URL }}js/foundation/foundation.js"></script>
+<script src="{{ STATIC_URL }}js/foundation/foundation.section.js"></script>
+<script src="{{ STATIC_URL }}js/foundation/foundation.dropdown.js"></script>
+<script src="{{ STATIC_URL }}js/foundation/foundation.tooltips.js"></script>
+<script src="{{ STATIC_URL }}js/foundation/foundation.cookie.js"></script>
+<script src="{{ STATIC_URL }}js/foundation/foundation.orbit.js"></script>
+<script src="{{ STATIC_URL }}js/foundation/foundation.topbar.js"></script>
+<script src="{{ STATIC_URL }}js/foundation/foundation.alerts.js"></script>
+<script src="{{ STATIC_URL }}js/foundation/foundation.reveal.js"></script>
+<script src="{{ STATIC_URL }}js/foundation/foundation.placeholder.js"></script>
+<script src="{{ STATIC_URL }}js/foundation/foundation.joyride.js"></script>
+<script src="{{ STATIC_URL }}js/foundation/foundation.clearing.js"></script>
+<script src="{{ STATIC_URL }}js/foundation/foundation.magellan.js"></script>
+<script src="{{ STATIC_URL }}js/foundation/foundation.forms.js"></script>
+<script>
+    $(document).foundation();
+</script>
+</body>
+</html>
